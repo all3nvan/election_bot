@@ -18,4 +18,8 @@ class Election
     most_votes = @votes.values.max
     @votes.select { |_, num_of_votes| num_of_votes == most_votes }.keys
   end
+
+  def has_voted?(voter)
+    @has_voted.include?(voter)
+  end
 end

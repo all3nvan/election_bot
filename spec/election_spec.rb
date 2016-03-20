@@ -45,4 +45,22 @@ describe Election do
       expect(election.winners.sort).to eq(['crystal', 'cereal'].sort)
     end
   end
+
+  describe '#has_voted?' do
+    it 'is true if voter has already voted' do
+      election = Election.new
+      voter_id = 1
+
+      election.vote(voter_id, 'candidate')
+
+      expect(election.has_voted?(voter_id)).to be true
+    end
+
+    it 'is false if voter has not voted' do
+      election = Election.new
+      voter_id = 1
+
+      expect(election.has_voted?(voter_id)).to be false
+    end
+  end
 end
