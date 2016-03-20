@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'election_bot'
+require 'envyable'
+
+Envyable.load('./config/env.yml')
+
+bot = ElectionBot::Bot.new(ENV['DISCORD_ACCOUNT'], ENV['DISCORD_PASSWORD'])
+
+bot.run
