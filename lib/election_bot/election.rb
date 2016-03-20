@@ -1,6 +1,8 @@
 class Election
   def initialize
+    # candidate username => number of votes
     @votes = {}
+    # voter stored by user_id to prevent multiple votes by name changing
     @has_voted = Set.new
   end
 
