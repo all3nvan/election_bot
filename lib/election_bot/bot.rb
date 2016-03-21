@@ -23,7 +23,7 @@ class ElectionBot::Bot
       if event.channel.id == ENV['CHANNEL_ID'].to_i
         if @election.has_voted?(event.user.id)
           "You have already voted, #{event.user.username}!"
-        elsif !usernames.include?(username)
+        elsif !user_exists?(username)
           "#{username} is not a valid user!"
         else
           @election.vote(event.user.id, username)
@@ -41,7 +41,12 @@ class ElectionBot::Bot
     }
   end
 
-  def usernames
-    @usernames ||= @bot.users.values.reject { |user| user == @bot.bot_user }.map(&:username)
+  def user_exists?(username)
+    @bot
+      .users
+      .values
+      .reject { |user| user == @bot.bot_user }
+      .map { |user| user.username.downcase }
+      .include?(username.downcase)
   end
 end
