@@ -11,6 +11,7 @@ class ElectionBot::Bot
     )
     @election = Election.new
     vote_command
+    raffle_command
   end
 
   def run
@@ -48,5 +49,11 @@ class ElectionBot::Bot
       .reject { |user| user == @bot.bot_user }
       .map { |user| user.username.downcase }
       .include?(username.downcase)
+  end
+
+  def raffle_command
+    @bot.command(:raffle, help_available: false) do
+      "You have entered the raffle!"
+    end
   end
 end
