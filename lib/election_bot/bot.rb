@@ -27,7 +27,7 @@ class ElectionBot::Bot
         elsif !user_exists?(username)
           "#{username} is not a valid user!"
         else
-          @election.vote(event.user.id, username)
+          @election.vote(event.user.id, user_id_for(username))
           "#{event.user.username} has voted for #{username}"
         end
       end
@@ -49,6 +49,13 @@ class ElectionBot::Bot
       .reject { |user| user == @bot.bot_user }
       .map { |user| user.username.downcase }
       .include?(username.downcase)
+  end
+
+  def user_id_for(username)
+    @bot
+      .users
+      .find { |_, user| user.username == username }
+      .first
   end
 
   def raffle_command
