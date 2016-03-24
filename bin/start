@@ -6,6 +6,12 @@ require 'envyable'
 
 Envyable.load('./config/env.yml')
 
-bot = ElectionBot::Bot.new(ENV['DISCORD_ACCOUNT'], ENV['DISCORD_PASSWORD'])
-
+command_bot = Discordrb::Commands::CommandBot.new(
+  ENV['DISCORD_ACCOUNT'],
+  ENV['DISCORD_PASSWORD'],
+  '!',
+  {},
+  true
+)
+bot = ElectionBot::Bot.new(command_bot)
 bot.run

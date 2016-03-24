@@ -1,14 +1,8 @@
 require 'discordrb'
 
 class ElectionBot::Bot
-  def initialize(account, password)
-    @bot = Discordrb::Commands::CommandBot.new(
-      account,
-      password,
-      '!',
-      {},
-      true
-    )
+  def initialize(command_bot)
+    @bot = command_bot
     @election = Election.new
     vote_command
     raffle_command
