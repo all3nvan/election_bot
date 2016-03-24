@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Election do
   describe '#vote' do
     it 'votes for a new candidate' do
