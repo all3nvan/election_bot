@@ -88,8 +88,15 @@ class ElectionBot::Bot
   end
 
   def raffle_command
-    @bot.command(:raffle, help_available: false) do
+    @bot.command(:raffle, raffle_command_attributes) do
       "You have entered the raffle!"
     end
+  end
+
+  def raffle_command_attributes
+    {
+      help_available: false,
+      rate_limit_message: 'STOP SPAMMING ME'
+    }
   end
 end
