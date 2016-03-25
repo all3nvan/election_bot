@@ -68,6 +68,18 @@ class ElectionBot::Bot
       .first
   end
 
+  def election_channel?(channel_id)
+    channel_id == ENV['CHANNEL_ID'].to_i
+  end
+
+  def raffle_command
+    @bot.command(:raffle, raffle_command_attributes) do
+      "You have entered the raffle!"
+    end
+  end
+
+  private
+
   def vote_command_attributes
     {
       description: 'Vote for the mayor (!vote username)',
@@ -81,16 +93,6 @@ class ElectionBot::Bot
       help_available: false,
       permission_level: 2
     }
-  end
-
-  def election_channel?(channel_id)
-    channel_id == ENV['CHANNEL_ID'].to_i
-  end
-
-  def raffle_command
-    @bot.command(:raffle, raffle_command_attributes) do
-      "You have entered the raffle!"
-    end
   end
 
   def raffle_command_attributes
