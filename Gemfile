@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in election_bot.gemspec
-gemspec
+gem 'rspec'
 gem 'discordrb'
 gem 'envyable'
