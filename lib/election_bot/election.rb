@@ -22,4 +22,9 @@ class Election
   def has_voted?(voter)
     @has_voted.include?(voter)
   end
+
+  def ==(o)
+    @votes == o.instance_variable_get(:@votes) &&
+    @has_voted == o.instance_variable_get(:@has_voted)
+  end
 end
