@@ -33,6 +33,10 @@ describe ElectionBot::Bot do
     it 'has 3 commands' do
       expect(@commands.size).to eq(3)
     end
+
+    it 'has empty winner ids' do
+      expect(@election_bot.instance_variable_get(:@winner_ids)).to eq([])
+    end
   end
 
   context 'when election is started' do
@@ -45,10 +49,6 @@ describe ElectionBot::Bot do
 
     it 'has a new Election object' do
       expect(@election_bot.instance_variable_get(:@election)).to eq(Election.new)
-    end
-
-    it 'has no winner ids' do
-      expect(@election_bot.instance_variable_get(:@winner_ids)).to eq([])
     end
 
     it 'does not have start command' do

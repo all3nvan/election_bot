@@ -3,6 +3,7 @@ require 'discordrb'
 class ElectionBot::Bot
   def initialize(command_bot)
     @bot = command_bot
+    @winner_ids = []
     start_command
     raffle_command
     @bot.set_user_permission(ENV['BOT_OWNER_ID'].to_i, 2)
@@ -67,7 +68,6 @@ class ElectionBot::Bot
   def start_election
     @bot.remove_command(:start)
     @election = Election.new
-    @winner_ids = []
     vote_command
     end_command
     vote_command_attributes[:description]
