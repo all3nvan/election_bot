@@ -14,31 +14,20 @@ class ElectionBot::Bot
 
   def start_command
     @bot.command(:start, election_command_attributes) do |event|
-      if election_channel?(event.channel.id)
-        @bot.remove_command(:start)
-        @election = Election.new
-        @winner_ids = nil
-        vote_command
-        end_command
-        vote_command_attributes[:description]
-      end
+      # TODO: test the if condition
+      start_election if election_channel?(event.channel.id)
     end
   end
 
   def end_command
     @bot.command(:end, election_command_attributes) do |event|
-      if election_channel?(event.channel.id)
-        @bot.remove_command(:end)
-        @bot.remove_command(:vote)
-        start_command
-        @winner_ids = @election.winners
-      end
+      # TODO: test the if condition
+      end_election if election_channel?(event.channel.id)
     end
   end
 
   def vote_command
     @bot.command(:vote, vote_command_attributes) do |event, username|
-      # CHANNEL_ID from config file is interpreted as a string
       if election_channel?(event.channel.id)
         if @election.has_voted?(event.user.id)
           "You have already voted, #{event.user.username}!"
@@ -69,6 +58,7 @@ class ElectionBot::Bot
   end
 
   def election_channel?(channel_id)
+    # CHANNEL_ID from config file is interpreted as a string
     channel_id == ENV['CHANNEL_ID'].to_i
   end
 
@@ -79,6 +69,22 @@ class ElectionBot::Bot
   end
 
   private
+
+  def start_election
+    @bot.remove_command(:start)
+    @election = Election.new
+    @winner_ids = []
+    vote_command
+    end_command
+    vote_command_attributes[:description]
+  end
+
+  def end_election
+    @bot.remove_command(:end)
+    @bot.remove_command(:vote)
+    start_command
+    @winner_ids = @election.winners
+  end
 
   def vote_command_attributes
     {
