@@ -12,6 +12,8 @@ class ElectionBot::Bot
     @bot.run
   end
 
+  private
+
   def start_command
     @bot.command(:start, election_command_attributes) do |event|
       # TODO: test the if condition
@@ -27,17 +29,9 @@ class ElectionBot::Bot
   end
 
   def vote_command
-    @bot.command(:vote, vote_command_attributes) do |event, username|
-      if election_channel?(event.channel.id)
-        if @election.has_voted?(event.user.id)
-          "You have already voted, #{event.user.username}!"
-        elsif !user_exists?(username)
-          "#{username} is not a valid user!"
-        else
-          @election.vote(event.user.id, user_id_for(username))
-          "#{event.user.username} has voted for #{username}"
-        end
-      end
+    @bot.command(:vote, vote_command_attributes) do |event, candidate_username|
+      # TODO: test the if condition
+      vote(event.user, candidate_username) if election_channel?(event.channel.id)
     end
   end
 
@@ -68,8 +62,6 @@ class ElectionBot::Bot
     end
   end
 
-  private
-
   def start_election
     @bot.remove_command(:start)
     @election = Election.new
@@ -84,6 +76,17 @@ class ElectionBot::Bot
     @bot.remove_command(:vote)
     start_command
     @winner_ids = @election.winners
+  end
+
+  def vote(voter_user, candidate_username)
+    if @election.has_voted?(voter_user.id)
+      "You have already voted, #{voter_user.username}!"
+    elsif !user_exists?(candidate_username)
+      "#{candidate_username} is not a valid user!"
+    else
+      @election.vote(voter_user.id, user_id_for(candidate_username))
+      "#{voter_user.username} has voted for #{candidate_username}"
+    end
   end
 
   def vote_command_attributes
