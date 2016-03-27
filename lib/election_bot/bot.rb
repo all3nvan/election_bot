@@ -35,6 +35,7 @@ class ElectionBot::Bot
     end
   end
 
+  # TODO: test
   def user_exists?(username)
     @bot
       .users
@@ -44,6 +45,7 @@ class ElectionBot::Bot
       .include?(username.downcase)
   end
 
+  # TODO: test
   def user_id_for(username)
     @bot
       .users
