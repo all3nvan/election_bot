@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'rspec'
+gemspec
 gem 'discordrb'
 gem 'envyable'
