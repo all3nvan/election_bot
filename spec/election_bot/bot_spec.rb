@@ -67,6 +67,10 @@ describe ElectionBot::Bot do
   context 'when election is ended' do
     before do
       @election_bot.send(:start_election)
+      @expected_winner_ids = [1, 2]
+      allow(@election_bot.instance_variable_get(:@election))
+        .to receive(:winners)
+        .and_return(@expected_winner_ids)
       @election_bot.send(:end_election)
       @commands = @election_bot
         .instance_variable_get(:@bot)
@@ -83,6 +87,10 @@ describe ElectionBot::Bot do
 
     it 'has start command' do
       expect(@commands[:start]).to be_an_instance_of(Discordrb::Commands::Command)
+    end
+
+    it 'has the winner ids' do
+      expect(@election_bot.instance_variable_get(:@winner_ids)).to eq(@expected_winner_ids)
     end
   end
 
