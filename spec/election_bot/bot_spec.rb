@@ -91,6 +91,8 @@ describe ElectionBot::Bot do
       @election_bot.send(:start_election)
       @election = @election_bot.instance_variable_get(:@election)
       @voter_user = Discordrb::User.new({ id: 1, username: 'all3nvan' }, nil)
+      # candidate username and id are not encapsulated in a User object since a voter votes
+      # with just a candidate username. it is then up to the bot to retrieve the candidate id
       @candidate_username = 'cerealcereal'
       @candidate_id = 2
       allow(@election_bot)
