@@ -78,6 +78,7 @@ class ElectionBot::Bot
     @bot.remove_command(:vote)
     start_command
     @winner_ids = @election.winners
+    announce_winners
   end
 
   def vote(voter_user, candidate_username)
@@ -89,6 +90,12 @@ class ElectionBot::Bot
       @election.vote(voter_user.id, user_id_for(candidate_username))
       "#{voter_user.username} has voted for #{candidate_username}"
     end
+  end
+
+  # TODO: test
+  def announce_winners
+    winner_usernames = @winner_ids.map { |id| @bot.users[id].username }
+    "Congrats to our mayor(s): #{winner_usernames.join(', ')}"
   end
 
   def vote_command_attributes

@@ -71,6 +71,7 @@ describe ElectionBot::Bot do
       allow(@election_bot.instance_variable_get(:@election))
         .to receive(:winners)
         .and_return(@expected_winner_ids)
+      allow(@election_bot).to receive(:announce_winners).and_return(nil)
       @election_bot.send(:end_election)
       @commands = @election_bot
         .instance_variable_get(:@bot)
