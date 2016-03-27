@@ -99,7 +99,6 @@ class ElectionBot::Bot
     @bot.channel(ENV['CHANNEL_ID'].to_i).topic = "Mayor(s): #{winner_usernames}"
   end
 
-  # TODO: test
   def announce_winners
     "Congrats to our mayor(s): #{winner_usernames}"
   end
