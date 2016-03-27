@@ -137,5 +137,14 @@ describe ElectionBot::Bot do
         @election_bot.send(:vote, @voter_user, @candidate_username)
       end
     end
+
+    context 'when user casts vote for themselves' do
+      it 'does not cast a vote' do
+        allow(@election).to receive(:has_voted?).with(@voter_user.id).and_return(false)
+        allow(@election_bot).to receive(:user_exists?).with(@voter_user.username).and_return(true)
+        expect(@election).to_not receive(:vote)
+        @election_bot.send(:vote, @voter_user, @voter_user.username)
+      end
+    end
   end
 end

@@ -85,6 +85,8 @@ class ElectionBot::Bot
   def vote(voter_user, candidate_username)
     if @election.has_voted?(voter_user.id)
       "You have already voted, #{voter_user.username}!"
+    elsif voter_user.username == candidate_username
+      "You cannot vote for yourself!"
     elsif !user_exists?(candidate_username)
       "#{candidate_username} is not a valid user!"
     else
