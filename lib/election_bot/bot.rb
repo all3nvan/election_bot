@@ -78,6 +78,7 @@ class ElectionBot::Bot
     @bot.remove_command(:vote)
     start_command
     @winner_ids = @election.winners
+    update_channel_topic
     announce_winners
   end
 
@@ -92,10 +93,19 @@ class ElectionBot::Bot
     end
   end
 
+  def update_channel_topic
+    @bot.channel(ENV['CHANNEL_ID'].to_i).topic = "Mayor(s): #{winner_usernames}"
+  end
+
   # TODO: test
   def announce_winners
-    winner_usernames = @winner_ids.map { |id| @bot.users[id].username }
-    "Congrats to our mayor(s): #{winner_usernames.join(', ')}"
+    "Congrats to our mayor(s): #{winner_usernames}"
+  end
+
+  def winner_usernames
+    @winner_ids
+      .map { |id| @bot.users[id].username }
+      .join(', ')
   end
 
   def vote_command_attributes
