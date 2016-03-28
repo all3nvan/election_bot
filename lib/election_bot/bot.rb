@@ -6,6 +6,7 @@ class ElectionBot::Bot
     @winner_ids = []
     start_command
     raffle_command
+    welcome_winners_await
     @bot.set_user_permission(ENV['BOT_OWNER_ID'].to_i, 2)
   end
 
@@ -33,6 +34,18 @@ class ElectionBot::Bot
     @bot.command(:vote, vote_command_attributes) do |event, candidate_username|
       # TODO: test the if condition
       vote(event.user, candidate_username) if election_channel?(event.channel.id)
+    end
+  end
+
+  def welcome_winners_await
+    @bot.add_await(:welcome_winner, Discordrb::Events::PresenceEvent, { status: :online }) do |event|
+      # TODO: extract this and test it
+      if @winner_ids.include?(event.user.id)
+        @bot.send_message(ENV['CHANNEL_ID'], "Our mayor #{event.user.username} has returned!")
+      end
+      # AwaitEvents are deleted if their block returns anything other than false,
+      # so this is to prevent the await from being deleted
+      false
     end
   end
 
